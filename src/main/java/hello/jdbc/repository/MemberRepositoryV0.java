@@ -43,7 +43,7 @@ public class MemberRepositoryV0 {
 
         try {
             con = getConnection();
-            pstmt = getConnection().prepareStatement(sql);
+            pstmt = con.prepareStatement(sql);
             pstmt.setString(1, memberId);
 
             rs = pstmt.executeQuery();
