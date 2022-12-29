@@ -4,6 +4,7 @@ import hello.jdbc.domain.Member;
 import hello.jdbc.repository.MemberRepository;
 import hello.jdbc.repository.MemberRepositoryV3;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
@@ -33,6 +34,12 @@ public class MemberServiceV4 {
     private void bizLogic(String fromId, String toId, int money) {
         Member fromMember = memberRepository.findById(fromId);
         Member toMember = memberRepository.findById(toId);
+
+//        try {
+//            memberRepository.update(fromId, fromMember.getMoney() - money);
+//        } catch (DuplicateKeyException e) {
+//            //복구
+//        }
 
         memberRepository.update(fromId, fromMember.getMoney() - money);
         validation(toMember);

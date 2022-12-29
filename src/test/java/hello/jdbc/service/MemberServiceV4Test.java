@@ -3,6 +3,8 @@ package hello.jdbc.service;
 import hello.jdbc.domain.Member;
 import hello.jdbc.repository.MemberRepository;
 import hello.jdbc.repository.MemberRepositoryV4_1;
+import hello.jdbc.repository.MemberRepositoryV4_2;
+import hello.jdbc.repository.MemberRepositoryV5;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -49,7 +51,9 @@ class MemberServiceV4Test {
 
         @Bean
         MemberRepository memberRepository() {
-            return new MemberRepositoryV4_1(dataSource);
+//            return new MemberRepositoryV4_1(dataSource);
+//            return new MemberRepositoryV4_2(dataSource);
+            return new MemberRepositoryV5(dataSource);
         }
 
         @Bean
@@ -69,6 +73,10 @@ class MemberServiceV4Test {
     void AopCheck() {
         log.info("memberService class = {}", memberService.getClass());
         log.info("memberRepository class = {}", memberRepository.getClass());
+//        assertThat(memberRepository).isInstanceOf(MemberRepositoryV4_1.class); //success
+//        assertThat(memberRepository).isInstanceOf(MemberRepositoryV4_2.class); //success
+        assertThat(memberRepository).isInstanceOf(MemberRepositoryV5.class); //success
+        assertThat(memberRepository).isInstanceOf(MemberRepository.class); //success
         assertThat(AopUtils.isAopProxy(memberService)).isTrue();
         assertThat(AopUtils.isAopProxy(memberRepository)).isFalse();
     }
